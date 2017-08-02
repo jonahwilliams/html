@@ -110,8 +110,8 @@ abstract class _ElementAndDocument implements _ParentNode {
   List<Element> getElementsByTagName(String localName) =>
       querySelectorAll(localName);
 
-  List<Element> getElementsByClassName(String classNames) => querySelectorAll(
-      classNames.splitMapJoin(' ',
+  List<Element> getElementsByClassName(String classNames) =>
+      querySelectorAll(classNames.splitMapJoin(' ',
           onNonMatch: (m) => m.isNotEmpty ? '.$m' : m, onMatch: (m) => ''));
 }
 
@@ -292,8 +292,8 @@ abstract class Node {
       _attributeSpans[attr.name] =
           sourceSpan.file.span(offset + attr.start, offset + attr.end);
       if (attr.startValue != null) {
-        _attributeValueSpans[attr.name] = sourceSpan.file.span(
-            offset + attr.startValue, offset + attr.endValue);
+        _attributeValueSpans[attr.name] = sourceSpan.file
+            .span(offset + attr.startValue, offset + attr.endValue);
       }
     }
   }
@@ -407,7 +407,9 @@ class Text extends Node {
   /// It will flatten back to a String on read.
   var _data;
 
-  Text(String data) : _data = data != null ? data : '', super._();
+  Text(String data)
+      : _data = data != null ? data : '',
+        super._();
 
   int get nodeType => Node.TEXT_NODE;
 
@@ -476,7 +478,6 @@ class Element extends Node with _ParentNode, _ElementAndDocument {
   // TODO(jmesserly): for our version we can do something smarter in the parser.
   // All we really need is to set the correct parse state.
   factory Element.html(String html) {
-
     // TODO(jacobr): this method can be made more robust and performant.
     // 1) Cache the dummy parent elements required to use innerHTML rather than
     //    creating them every call.
@@ -807,7 +808,8 @@ class NodeList extends ListProxy<Node> {
 /// filtered so that only elements are in the collection.
 // TODO(jmesserly): this was copied from dart:html
 // TODO(jmesserly): "implements List<Element>" is a workaround for analyzer bug.
-class FilteredElementList extends IterableBase<Element> with ListMixin<Element>
+class FilteredElementList extends IterableBase<Element>
+    with ListMixin<Element>
     implements List<Element> {
   final List<Node> _childNodes;
 
@@ -817,9 +819,7 @@ class FilteredElementList extends IterableBase<Element> with ListMixin<Element>
   ///
   ///     var filteredElements = new FilteredElementList(query("#container"));
   ///     // filteredElements is [a, b, c].
-  FilteredElementList(Node node)
-      : _childNodes = node.nodes;
-
+  FilteredElementList(Node node) : _childNodes = node.nodes;
 
   // We can't memoize this, since it's possible that children will be messed
   // with externally to this class.
@@ -971,8 +971,7 @@ class FilteredElementList extends IterableBase<Element> with ListMixin<Element>
       _filtered.getRange(start, end);
   // TODO(sigmund): this should be typed Element, but we currently run into a
   // bug where ListMixin<E>.indexOf() expects Object as the argument.
-  int indexOf(element, [int start = 0]) =>
-      _filtered.indexOf(element, start);
+  int indexOf(element, [int start = 0]) => _filtered.indexOf(element, start);
 
   // TODO(sigmund): this should be typed Element, but we currently run into a
   // bug where ListMixin<E>.lastIndexOf() expects Object as the argument.

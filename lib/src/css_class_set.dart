@@ -33,7 +33,6 @@ class ElementCssClassSet extends CssClassSetImpl {
 
 /** A Set that stores the CSS class names for an element. */
 abstract class CssClassSet implements Set<String> {
-
   /**
    * Adds the class [value] to the element if it is not on it, removes it if it
    * is.
@@ -155,7 +154,8 @@ abstract class CssClassSetImpl implements CssClassSet {
 
   Iterable<String> where(bool f(String element)) => readClasses().where(f);
 
-  Iterable/*<T>*/ expand/*<T>*/(Iterable/*<T>*/ f(String element)) => readClasses().expand(f);
+  Iterable/*<T>*/ expand/*<T>*/(Iterable/*<T>*/ f(String element)) =>
+      readClasses().expand(f);
 
   bool every(bool f(String element)) => readClasses().every(f);
 
